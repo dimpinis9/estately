@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================
+   Base tokens & resets
+   ========================= */
+@layer base {
+  :root {
+    /* Brand */
+    --primary: 226 84% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 28 95% 58%;
+    --secondary-foreground: 26 83% 14%;
+
+    /* Extra accent για gradients/effects */
+    --accent: 262 83% 58%;
+
+    /* UI */
+    --background: 220 25% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 8% 46%;
+    --border: 220 13% 90%;
+    --ring: var(--primary);
+
+    --radius: 12px;
+  }
+
+  .dark {
+    --primary: 226 84% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 28 95% 60%;
+    --secondary-foreground: 26 83% 14%;
+
+    --accent: 262 83% 65%;
+
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+    --muted: 217 33% 16%;
+    --muted-foreground: 215 20% 70%;
+    --border: 217 33% 22%;
+    --ring: var(--primary);
+  }
+
+  /* Εφάρμοσε tokens */
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* =========================
+   Utilities (Aurora, Shimmer, Shine)
+   ========================= */
+@layer utilities {
+  /* Aurora background */
+  .aurora {
+    position: fixed;
+    inset: -20% -10% auto -10%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(40px) saturate(120%);
+    opacity: 0.55;
+    background: radial-gradient(
+        600px 200px at 20% 10%,
+        hsl(var(--primary) / 0.25),
+        transparent 60%
+      ),
+      radial-gradient(
+        500px 200px at 80% 0%,
+        hsl(var(--accent) / 0.22),
+        transparent 60%
+      ),
+      radial-gradient(
+        700px 250px at 50% 10%,
+        hsl(var(--secondary) / 0.18),
+        transparent 60%
+      );
+    animation: aurora-move 16s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-move {
+    0% {
+      transform: translateY(-2%) translateX(0%);
+    }
+    100% {
+      transform: translateY(2%) translateX(2%);
+    }
+  }
+
+  /* Gradient text */
+  .brand-gradient {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 50%,
+      hsl(var(--secondary)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Shimmer border wrapper */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 16px;
+    background: linear-gradient(
+      120deg,
+      hsl(var(--primary) / 0.35),
+      hsl(var(--accent) / 0.25),
+      hsl(var(--secondary) / 0.35)
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Shine effect για buttons */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: -120% 0 auto 0;
+    height: 300%;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .btn-shine:hover::after {
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora {
+      animation: none !important;
+    }
+    .btn-shine::after {
+      transition: none !important;
+    }
+  }
+}
