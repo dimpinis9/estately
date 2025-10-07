@@ -127,3 +127,8 @@ supabase/.temp
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Scripts with sensitive data
+apps/web/scripts/
+**/scripts/
+scripts/
